@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.rrc.explore.beans.Comando;
-import br.com.rrc.explore.convert.ComandoConvert;
+import br.com.rrc.explore.beans.enums.Comando;
 
 public class TestConvertComando {
+	
+	@Autowired
+	ComandoConvert comandoConvert;
 	
 	@Test
 	public void testConvertComandoComSucesso(){
@@ -29,7 +32,7 @@ public class TestConvertComando {
 		listaComandosEsperado.add(Comando.SUBIR);
 		listaComandosEsperado.add(Comando.SUBIR);
 		
-		Assert.assertEquals(listaComandos, comandos);
+		Assert.assertEquals(listaComandosEsperado, comandos);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
