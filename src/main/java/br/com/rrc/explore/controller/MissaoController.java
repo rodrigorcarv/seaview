@@ -37,12 +37,12 @@ public class MissaoController {
 
 			case ESQUERDA:
 
-				direcao = busula(Comando.ESQUERDA, direcao);
+				direcao = direcao.virarEsqueda();
 				break;
 
 			case DIREITA:
 
-				direcao = busula(Comando.DIREITA, direcao);
+				direcao = direcao.virarDireita();
 				break;
 
 			case MOVER:
@@ -85,28 +85,5 @@ public class MissaoController {
 			}
 		}
 		return String.format("%s %s %s %s", posicaoEntradaX, posicaoEntradaY, posicaoEntradaZ, direcao);
-	}
-
-	private Direcao busula(Comando comando, Direcao direcao) {
-
-		if (Direcao.NORTE.equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
-			return Direcao.OESTE;
-		} else if (Direcao.NORTE.equals(direcao) &&  Comando.DIREITA.equals(comando)) {
-			return Direcao.LESTE;
-		} else if (Direcao.LESTE.equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
-			return Direcao.NORTE;
-		} else if (Direcao.LESTE.equals(direcao) &&  Comando.DIREITA.equals(comando)) {
-			return Direcao.SUL; 
-		} else if (Direcao.SUL.equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
-			return Direcao.LESTE;
-		} else if (Direcao.SUL.equals(direcao) &&  Comando.DIREITA.equals(comando)) {
-			return Direcao.OESTE;
-		} else if (Direcao.OESTE.equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
-			return Direcao.SUL;
-		} else if (Direcao.OESTE.equals(direcao) &&  Comando.DIREITA.equals(comando)) {
-			return Direcao.NORTE;
-		}
-		
-		return direcao;
 	}
 }
