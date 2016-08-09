@@ -1,6 +1,7 @@
 package br.com.rrc.explore.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.rrc.explore.beans.enums.Comando;
+import br.com.rrc.explore.beans.enums.Direcao;
 import br.com.rrc.explore.convert.ComandoConvert;
 
 @RestController
@@ -27,7 +29,7 @@ public class MissaoController {
 		int posicaoEntradaX = 0;
 		int posicaoEntradaY = 0;
 		int posicaoEntradaZ = 0;
-		String direcao = "NORTE";
+		Direcao direcao = Direcao.NORTE;
 
 		for (Comando comando : listaComandos) {
 
@@ -47,22 +49,22 @@ public class MissaoController {
 
 				switch (direcao) {
 
-				case "NORTE":
+				case NORTE:
 
 					posicaoEntradaY++;
 					break;
 
-				case "LESTE":
+				case LESTE:
 
 					posicaoEntradaX++;
 					break;
 
-				case "SUL":
+				case SUL:
 
 					posicaoEntradaY--;
 					break;
 
-				case "OESTE":
+				case OESTE:
 
 					posicaoEntradaX--;
 					break;
@@ -82,29 +84,29 @@ public class MissaoController {
 				
 			}
 		}
-		
 		return String.format("%s %s %s %s", posicaoEntradaX, posicaoEntradaY, posicaoEntradaZ, direcao);
 	}
 
-	private String busula(Comando comando, String direcao) {
+	private Direcao busula(Comando comando, Direcao direcao) {
 
-		if ("NORTE".equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
-			return "OESTE";
-		} else if ("NORTE".equals(direcao) &&  Comando.DIREITA.equals(comando)) {
-			return "LESTE";
-		} else if ("LESTE".equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
-			return "NORTE";
-		} else if ("LESTE".equals(direcao) &&  Comando.DIREITA.equals(comando)) {
-			return "SUL"; 
-		} else if ("SUL".equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
-			return "LESTE";
-		} else if ("SUL".equals(direcao) &&  Comando.DIREITA.equals(comando)) {
-			return "OESTE";
-		} else if ("OESTE".equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
-			return "SUL";
-		} else if ("OESTE".equals(direcao) &&  Comando.DIREITA.equals(comando)) {
-			return "NORTE";
+		if (Direcao.NORTE.equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
+			return Direcao.OESTE;
+		} else if (Direcao.NORTE.equals(direcao) &&  Comando.DIREITA.equals(comando)) {
+			return Direcao.LESTE;
+		} else if (Direcao.LESTE.equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
+			return Direcao.NORTE;
+		} else if (Direcao.LESTE.equals(direcao) &&  Comando.DIREITA.equals(comando)) {
+			return Direcao.SUL; 
+		} else if (Direcao.SUL.equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
+			return Direcao.LESTE;
+		} else if (Direcao.SUL.equals(direcao) &&  Comando.DIREITA.equals(comando)) {
+			return Direcao.OESTE;
+		} else if (Direcao.OESTE.equals(direcao) &&  Comando.ESQUERDA.equals(comando)) {
+			return Direcao.SUL;
+		} else if (Direcao.OESTE.equals(direcao) &&  Comando.DIREITA.equals(comando)) {
+			return Direcao.NORTE;
 		}
+		
 		return direcao;
 	}
 }
