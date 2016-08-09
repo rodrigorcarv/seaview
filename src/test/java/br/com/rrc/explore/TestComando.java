@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import br.com.rrc.explore.beans.enums.Comando;
-import br.com.rrc.explore.convert.ComandoConvert;
 
 public class TestComando {
 	
