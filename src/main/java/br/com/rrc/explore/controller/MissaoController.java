@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.rrc.explore.beans.Submarino;
 import br.com.rrc.explore.beans.enums.Comando;
 import br.com.rrc.explore.convert.ComandoConvert;
 import br.com.rrc.explore.service.MissaoService;
@@ -28,6 +29,8 @@ public class MissaoController {
 
 		List<Comando> listaComandos = comandoConvert.string2Comandos(comandos);
 
-		return missaoService.explorarOceano(listaComandos);
+		Submarino submarino = missaoService.explorarOceano(listaComandos);
+		
+		return submarino.formataResultado();
 	}
 }

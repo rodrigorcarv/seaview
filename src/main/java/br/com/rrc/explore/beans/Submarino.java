@@ -30,7 +30,7 @@ public class Submarino {
 	}
 
 	public void navegar() {
-		direcao.navegar(this.coordenada);
+		direcao.navegar(coordenada);
 	}
 
 	@Override

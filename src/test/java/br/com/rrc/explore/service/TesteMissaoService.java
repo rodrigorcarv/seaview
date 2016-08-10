@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.rrc.explore.beans.Submarino;
 import br.com.rrc.explore.beans.enums.Comando;
 import br.com.rrc.explore.service.MissaoService;
 
@@ -34,10 +35,10 @@ public class TesteMissaoService {
 		comandos.add(Comando.SUBIR);
 		comandos.add(Comando.SUBIR);
 		
-		String coordenadaFinal =  missaoService.explorarOceano(comandos);
+		Submarino submarino =  missaoService.explorarOceano(comandos);
 		
 		String coordenadaEsperada = "-1 2 0 NORTE";
-		Assert.assertEquals(coordenadaEsperada , coordenadaFinal);
+		Assert.assertEquals(coordenadaEsperada , submarino.formataResultado());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)

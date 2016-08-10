@@ -16,7 +16,7 @@ public class MissaoServiceImpl implements MissaoService {
 	private static final String PARAMETRO_INFORMADO_LISTA_COMANDO_ESTA_NULO_OU_VAZIO = "N\u00E3o \u00E9 poss\u00EDvel iniciar a exploca\u00E7\u00E3o do oceano, pois a lista de comandos esta vazia ou nula";
 
 	@Override
-	public String explorarOceano(List<Comando> listaComandos) {
+	public Submarino explorarOceano(List<Comando> listaComandos) {
 		
 		if (listaComandos == null || listaComandos.size() <=0 ) {
 			throw new IllegalArgumentException(PARAMETRO_INFORMADO_LISTA_COMANDO_ESTA_NULO_OU_VAZIO);
@@ -31,7 +31,7 @@ public class MissaoServiceImpl implements MissaoService {
 
 			case ESQUERDA:
 
-				submarino.virarEsquerda();
+				submarino.virarEsquerda(); 
 				break;
 
 			case DIREITA:
@@ -56,6 +56,6 @@ public class MissaoServiceImpl implements MissaoService {
 
 			}
 		}
-		return submarino.formataResultado();
+		return submarino;
 	}
 }
