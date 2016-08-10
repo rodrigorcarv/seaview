@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import br.com.rrc.explore.beans.Coordenada;
+import br.com.rrc.explore.beans.Submarino;
 import br.com.rrc.explore.beans.enums.Comando;
 import br.com.rrc.explore.beans.enums.Direcao;
 import br.com.rrc.explore.service.MissaoService;
@@ -19,48 +21,46 @@ public class MissaoServiceImpl implements MissaoService {
 		if (listaComandos == null || listaComandos.size() <=0 ) {
 			throw new IllegalArgumentException(PARAMETRO_INFORMADO_LISTA_COMANDO_ESTA_NULO_OU_VAZIO);
 		}
-		
-		int posicaoEntradaX = 0;
-		int posicaoEntradaY = 0;
-		int posicaoEntradaZ = 0;
-		Direcao direcao = Direcao.NORTE;
 
+		Coordenada coordenada = new Coordenada(0, 0, 0);
+		Submarino submarino = new Submarino(coordenada, Direcao.NORTE);
+		
 		for (Comando comando : listaComandos) {
 
 			switch (comando) {
 
 			case ESQUERDA:
 
-				direcao = direcao.virarEsqueda();
+				submarino.virarEsquerda();
 				break;
 
 			case DIREITA:
 
-				direcao = direcao.virarDireita();
+				submarino.virarDireita();
 				break;
 
 			case MOVER:
 
-				switch (direcao) {
+				switch (submarino.getDirecao()) {
 
 				case NORTE:
 
-					posicaoEntradaY++;
+					submarino.getCoordenada().incrementaLongitude();
 					break;
 
 				case LESTE:
 
-					posicaoEntradaX++;
+					submarino.getCoordenada().incrementaLatitude();
 					break;
 
 				case SUL:
 
-					posicaoEntradaY--;
+					submarino.getCoordenada().decrementaLongitude();
 					break;
 
 				case OESTE:
 
-					posicaoEntradaX--;
+					submarino.getCoordenada().decrementaLatitude();
 					break;
 				}
 
@@ -68,16 +68,16 @@ public class MissaoServiceImpl implements MissaoService {
 
 			case SUBIR:
 
-				posicaoEntradaZ++;
+				submarino.getCoordenada().incrementaAltitude();
 				break;
 
 			case DESCER:
 
-				posicaoEntradaZ--;
+				submarino.getCoordenada().decrementaAltitude();
 				break;
 
 			}
 		}
-		return String.format("%s %s %s %s", posicaoEntradaX, posicaoEntradaY, posicaoEntradaZ, direcao);
+		return submarino.formataResultado();
 	}
 }
