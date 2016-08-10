@@ -27,34 +27,7 @@ public class MissaoServiceImpl implements MissaoService {
 		
 		for (Comando comando : listaComandos) {
 
-			switch (comando) {
-
-			case ESQUERDA:
-
-				submarino.virarEsquerda(); 
-				break;
-
-			case DIREITA:
-
-				submarino.virarDireita();
-				break;
-
-			case MOVER:
-
-				submarino.navegar();
-				break;
-
-			case SUBIR:
-
-				submarino.getCoordenada().incrementaAltitude();
-				break;
-
-			case DESCER:
-
-				submarino.getCoordenada().decrementaAltitude();
-				break;
-
-			}
+			comando.executaComando(submarino);
 		}
 		return submarino;
 	}

@@ -5,13 +5,40 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import br.com.rrc.explore.beans.Submarino;
+
 public enum Comando {
 	
-	ESQUERDA("L"),
-	DIREITA("R"),
-	MOVER("M"),
-	DESCER("D"),
-	SUBIR("U");
+	ESQUERDA("L") {
+		@Override
+		public void executaComando(Submarino submarino) {
+			submarino.virarEsquerda(); 
+		}
+	},
+	DIREITA("R") {
+		@Override
+		public void executaComando(Submarino submarino) {
+			submarino.virarDireita();
+		}
+	},
+	MOVER("M") {
+		@Override
+		public void executaComando(Submarino submarino) {
+			submarino.navegar();
+		}
+	},
+	DESCER("D") {
+		@Override
+		public void executaComando(Submarino submarino) {
+			submarino.getCoordenada().decrementaAltitude();
+		}
+	},
+	SUBIR("U") {
+		@Override
+		public void executaComando(Submarino submarino) {
+			submarino.getCoordenada().incrementaAltitude();
+		}
+	};
 	
 	private static final String O_COMANDO_INFORMADO_ESTA_INVALIDO = "O comando %s esta inválido";
 	private String sigla;
@@ -76,4 +103,6 @@ public enum Comando {
 		}
 		throw new IllegalArgumentException(String.format(O_COMANDO_INFORMADO_ESTA_INVALIDO, instrucao));
 	}
+	
+	public abstract void executaComando(Submarino submarino);
 }
