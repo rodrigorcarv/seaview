@@ -1,5 +1,7 @@
 package br.com.rrc.explore.beans.enums;
 
+import br.com.rrc.explore.beans.Coordenada;
+
 /**
  *  Enum para indicar os pontos cardiais 
  * 
@@ -18,10 +20,30 @@ package br.com.rrc.explore.beans.enums;
  */
 public enum Direcao {
 	
-	NORTE("N", "Norte"),
-	SUL("S", "Sul"),
-	LESTE("L", "Leste"),
-	OESTE("O", "Oeste");
+	NORTE {
+		@Override
+		public void navegar(Coordenada coordenada) {
+			coordenada.incrementaLongitude();
+		}
+	},
+	SUL {
+		@Override
+		public void navegar(Coordenada coordenada) {
+			coordenada.decrementaLongitude();
+		}
+	},
+	LESTE {
+		@Override
+		public void navegar(Coordenada coordenada) {
+			coordenada.incrementaLatitude();
+		}
+	},
+	OESTE {
+		@Override
+		public void navegar(Coordenada coordenada) {
+			coordenada.decrementaLatitude();
+		}
+	};
 
 	/**
 	 * Responsavel por realizar a navegacao da sonda
@@ -56,27 +78,8 @@ public enum Direcao {
 		OESTE.navegar(Direcao.NORTE, Direcao.SUL);
 	}
 	
-	private String descricao;
-	private String sigla;
 	private Direcao direita;
 	private Direcao esquerda;
-	
-	Direcao (String sigla, String descricao) {
-		this.descricao = descricao;
-		this.sigla = sigla;
-	}
-	
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public String getSigla() {
-		return sigla;
-	}
-
-	public void setSigla(String sigla) {
-		this.sigla = sigla;
-	}
 	
 	public Direcao virarEsqueda() {
 		return esquerda;
@@ -85,6 +88,8 @@ public enum Direcao {
 	public Direcao virarDireita() {
 		return direita;
 	}
+	
+	public abstract void navegar(Coordenada coordenada);
 	
 	private void navegar(Direcao direita, Direcao esquerda) {
 		this.direita = direita;

@@ -41,29 +41,7 @@ public class MissaoServiceImpl implements MissaoService {
 
 			case MOVER:
 
-				switch (submarino.getDirecao()) {
-
-				case NORTE:
-
-					submarino.getCoordenada().incrementaLongitude();
-					break;
-
-				case LESTE:
-
-					submarino.getCoordenada().incrementaLatitude();
-					break;
-
-				case SUL:
-
-					submarino.getCoordenada().decrementaLongitude();
-					break;
-
-				case OESTE:
-
-					submarino.getCoordenada().decrementaLatitude();
-					break;
-				}
-
+				submarino.navegar();
 				break;
 
 			case SUBIR:
