@@ -1,36 +1,71 @@
 package br.com.rrc.explore.beans;
 
+import java.util.Optional;
+
+import javax.management.RuntimeErrorException;
+
 import br.com.rrc.explore.beans.enums.Direcao;
 
 public class Submarino {
 
-	private Coordenada coordenada;
-	private Direcao direcao;
+	private static final String COORDENADA_NVALIDA_O_SUBMARINO_ESTA_NO_NIVEL_DO_MAR = "Coordenada esta inv\u00E1lida o submarino j\u00E1 esta no n\u00EDvel do mar";
+	private Optional<Coordenada> coordenada;
+	private Optional<Direcao> direcao;
 
-	public Submarino(Coordenada coordenada, Direcao direcao) {
+	public Submarino(Optional<Coordenada> coordenada, Optional<Direcao>direcao) {
 		super();
 		this.coordenada = coordenada;
 		this.direcao = direcao;
 	}
 
-	public Coordenada getCoordenada() {
+	public Optional<Coordenada> getCoordenada() {
 		return coordenada;
 	}
 
-	public Direcao getDirecao() {
+	public Optional<Direcao> getDirecao() {
 		return direcao;
 	}
 
+	public void setDirecao(Optional<Direcao> direcao) {
+		this.direcao = direcao;
+	}
+
 	public void virarEsquerda() {
-		this.direcao = direcao.virarEsqueda();
+		
+		if (direcao.isPresent()) {
+			this.direcao = Optional.ofNullable(direcao.get().virarEsqueda());
+		}
 	}
 
 	public void virarDireita() {
-		this.direcao = direcao.virarDireita();
+
+		if (direcao.isPresent()) {
+			this.direcao = Optional.ofNullable(direcao.get().virarDireita());
+		}
+	}
+	
+	public void subir() {
+		
+		if (coordenada.isPresent()) {
+			
+			if (coordenada.get().getAltitude() == 0) {
+				throw new RuntimeException(COORDENADA_NVALIDA_O_SUBMARINO_ESTA_NO_NIVEL_DO_MAR);
+			}
+			coordenada.get().incrementaAltitude();
+		}
+	}
+	
+	public void descer() {
+		if (coordenada.isPresent()) {
+			coordenada.get().decrementaAltitude();
+		}
 	}
 
 	public void navegar() {
-		direcao.navegar(coordenada);
+		
+		if (direcao.isPresent()) {
+			direcao.get().navegar(coordenada);
+		}
 	}
 
 	@Override
@@ -40,13 +75,13 @@ public class Submarino {
 
 	public String formataResultado() {
 
-		if (coordenada != null && direcao != null) {
+		if (coordenada.isPresent() && coordenada.isPresent()) {
 
 			return String.format("%s %s %s %s", 
-					coordenada.getLatitude(),
-					coordenada.getLongitude(),
-					coordenada.getAltitude(),
-					direcao);
+					coordenada.get().getLatitude(),
+					coordenada.get().getLongitude(),
+					coordenada.get().getAltitude(),
+					direcao.get());
 		}
 
 		return toString();

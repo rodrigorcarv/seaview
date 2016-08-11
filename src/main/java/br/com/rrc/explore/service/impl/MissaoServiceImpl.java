@@ -1,6 +1,7 @@
 package br.com.rrc.explore.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,11 @@ public class MissaoServiceImpl implements MissaoService {
 		if (listaComandos == null || listaComandos.size() <=0 ) {
 			throw new IllegalArgumentException(PARAMETRO_INFORMADO_LISTA_COMANDO_ESTA_NULO_OU_VAZIO);
 		}
+		
+		Optional<Coordenada> coordenada = Optional.of(new Coordenada(0, 0, 0));
+		Optional<Direcao> direcao = Optional.of(Direcao.NORTE);
 
-		Coordenada coordenada = new Coordenada(0, 0, 0);
-		Submarino submarino = new Submarino(coordenada, Direcao.NORTE);
+		Submarino submarino = new Submarino(coordenada, direcao);
 		
 		for (Comando comando : listaComandos) {
 

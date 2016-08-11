@@ -1,5 +1,7 @@
 package br.com.rrc.explore.beans.enums;
 
+import java.util.Optional;
+
 import br.com.rrc.explore.beans.Coordenada;
 
 /**
@@ -22,26 +24,26 @@ public enum Direcao {
 	
 	NORTE {
 		@Override
-		public void navegar(Coordenada coordenada) {
-			coordenada.incrementaLongitude();
+		public void navegar(Optional<Coordenada> coordenada) {
+			coordenada.get().incrementaLongitude();
 		}
 	},
 	SUL {
 		@Override
-		public void navegar(Coordenada coordenada) {
-			coordenada.decrementaLongitude();
+		public void navegar(Optional<Coordenada> coordenada) {
+			coordenada.get().decrementaLongitude();
 		}
 	},
 	LESTE {
 		@Override
-		public void navegar(Coordenada coordenada) {
-			coordenada.incrementaLatitude();
+		public void navegar(Optional<Coordenada> coordenada) {
+			coordenada.get().incrementaLatitude();
 		}
 	},
 	OESTE {
 		@Override
-		public void navegar(Coordenada coordenada) {
-			coordenada.decrementaLatitude();
+		public void navegar(Optional<Coordenada> coordenada) {
+			coordenada.get().decrementaLatitude();
 		}
 	};
 
@@ -89,7 +91,7 @@ public enum Direcao {
 		return direita;
 	}
 	
-	public abstract void navegar(Coordenada coordenada);
+	public abstract void navegar(Optional<Coordenada> coordenada);
 	
 	private void navegar(Direcao direita, Direcao esquerda) {
 		this.direita = direita;

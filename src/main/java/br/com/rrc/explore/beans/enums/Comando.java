@@ -30,13 +30,13 @@ public enum Comando {
 	DESCER("D") {
 		@Override
 		public void executaComando(Submarino submarino) {
-			submarino.getCoordenada().decrementaAltitude();
+			submarino.descer();
 		}
 	},
 	SUBIR("U") {
 		@Override
 		public void executaComando(Submarino submarino) {
-			submarino.getCoordenada().incrementaAltitude();
+			submarino.subir();
 		}
 	};
 	
