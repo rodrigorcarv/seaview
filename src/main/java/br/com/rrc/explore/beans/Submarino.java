@@ -2,7 +2,8 @@ package br.com.rrc.explore.beans;
 
 import java.util.Optional;
 
-import javax.management.RuntimeErrorException;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import br.com.rrc.explore.beans.enums.Direcao;
 
@@ -68,11 +69,6 @@ public class Submarino {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return String.format("Submarino [coordenada=%s, direcao=%s]", coordenada, direcao);
-	}
-
 	public String formataResultado() {
 
 		if (coordenada.isPresent() && coordenada.isPresent()) {
@@ -86,4 +82,10 @@ public class Submarino {
 
 		return toString();
 	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+	}
+	
 }

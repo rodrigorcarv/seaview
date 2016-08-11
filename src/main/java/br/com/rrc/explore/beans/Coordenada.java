@@ -1,5 +1,8 @@
 package br.com.rrc.explore.beans;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class Coordenada {
 
 	private int latitude;
@@ -49,7 +52,6 @@ public class Coordenada {
 
 	@Override
 	public String toString() {
-		return String.format("Coordenada [latitude=%s, longitude=%s, altitude=%s]", latitude, longitude, altitude);
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-	
 }
