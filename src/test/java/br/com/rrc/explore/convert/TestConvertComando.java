@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.rrc.explore.beans.enums.Comando;
+import br.com.rrc.explore.exceptions.ComandoInvalidoException;
 
 public class TestConvertComando {
 	
@@ -35,7 +36,7 @@ public class TestConvertComando {
 		Assert.assertEquals(listaComandosEsperado, comandos);
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected=ComandoInvalidoException.class)
 	public void testConvertComandoComFalha(){
 		
 		ComandoConvert comandoConvert = new ComandoConvert();

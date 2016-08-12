@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import br.com.rrc.explore.beans.enums.Comando;
+import br.com.rrc.explore.exceptions.ComandoInvalidoException;
 
 public class TestComando {
 	
@@ -45,7 +46,7 @@ public class TestComando {
 		Assert.assertEquals(Comando.SUBIR, Comando.buscaComando(instrucao));
 	}
 	
-	@Test (expected=IllegalArgumentException.class)
+	@Test (expected=ComandoInvalidoException.class)
 	public void testBuscarComandoVazio() {
 		
 		char instrucao = ' ';

@@ -2,14 +2,11 @@ package br.com.rrc.explore.beans;
 
 import java.util.Optional;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import br.com.rrc.explore.beans.enums.Direcao;
+import br.com.rrc.explore.exceptions.PosicaoSubimarinoInvalidaException;
 
 public class Submarino {
 
-	private static final String COORDENADA_NVALIDA_O_SUBMARINO_ESTA_NO_NIVEL_DO_MAR = "Coordenada esta inv\u00E1lida o submarino j\u00E1 esta no n\u00EDvel do mar";
 	private Optional<Coordenada> coordenada;
 	private Optional<Direcao> direcao;
 
@@ -50,7 +47,7 @@ public class Submarino {
 		if (coordenada.isPresent()) {
 			
 			if (coordenada.get().getAltitude() == 0) {
-				throw new RuntimeException(COORDENADA_NVALIDA_O_SUBMARINO_ESTA_NO_NIVEL_DO_MAR);
+				throw new PosicaoSubimarinoInvalidaException(coordenada.get());
 			}
 			coordenada.get().incrementaAltitude();
 		}
@@ -83,9 +80,5 @@ public class Submarino {
 		return toString();
 	}
 	
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-	}
 	
 }

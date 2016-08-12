@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import br.com.rrc.explore.beans.Submarino;
+import br.com.rrc.explore.exceptions.ComandoInvalidoException;
 
 public enum Comando {
 	
@@ -40,7 +41,6 @@ public enum Comando {
 		}
 	};
 	
-	private static final String O_COMANDO_INFORMADO_ESTA_INVALIDO = "O comando %s esta inválido";
 	private String sigla;
 	
 	Comando (String sigla) {
@@ -101,7 +101,7 @@ public enum Comando {
 				return comando;
 			}
 		}
-		throw new IllegalArgumentException(String.format(O_COMANDO_INFORMADO_ESTA_INVALIDO, instrucao));
+		throw new ComandoInvalidoException(instrucao);
 	}
 	
 	public abstract void executaComando(Submarino submarino);
