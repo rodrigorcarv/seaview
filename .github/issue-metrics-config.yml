@@ -1,0 +1,14 @@
+exclude-labels:
+  - duplicate
+  - invalid
+  - question
+  - wontfix
+
+exclude-assignees:
+  - dependabot[bot]
+
+report:
+  title: 📊 Relatório semanal de métricas de issues
+  labels:
+    - metrics
+  comment_on_issues: false
