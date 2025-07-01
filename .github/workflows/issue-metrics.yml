@@ -1,0 +1,16 @@
+name: Issue Metrics
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"  # Toda segunda-feira às 08h
+  workflow_dispatch:
+
+jobs:
+  issue-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run issue-metrics
+        uses: github/issue-metrics@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-path: .github/issue-metrics-config.yml
