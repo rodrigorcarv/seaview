@@ -30,13 +30,8 @@ jobs:
           python <<EOF
           import os, json, requests
 
-          echo ${{ secrets.MY_GITHUB_TOKEN }}
-
-          if [ -n "$GITHUB_TOKEN" ]; then
-          echo "GITHUB_TOKEN está definido"
-            else
-          echo "GITHUB_TOKEN não está definido"
-          fi
+          echo "Teste "
+          echo ${{ GITHUB_TOKEN }}
 
           headers = {"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"}
 
