@@ -48,7 +48,7 @@ jobs:
           }
           """
           user = os.environ['USERNAME']
-          projects = run_query(q_project, {"login": user})['data']['user']['projectsV2']['nodes']
+          projects = run_query(q_project, {"login": user})
           project = next(p for p in projects if p['title'] == os.environ['PROJECT_NAME'])
           project_id = project['id']
 
