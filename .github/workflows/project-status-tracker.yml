@@ -30,7 +30,6 @@ jobs:
           python <<EOF
           import os, json, requests
 
-          echo "Teste "
           echo ${{ GITHUB_TOKEN }}
 
           headers = {"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"}
