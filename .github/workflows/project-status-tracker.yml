@@ -30,7 +30,13 @@ jobs:
           python <<EOF
           import os, json, requests
 
-          echo ${{ GITHUB_TOKEN }}
+          echo "Iniciando execução do script Python..."
+         
+          if 'GITHUB_TOKEN' in os.environ:
+            print("GITHUB_TOKEN carregado com sucesso (valor ocultado)")
+          else:
+            print("GITHUB_TOKEN não encontrado")
+
 
           headers = {"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"}
 
