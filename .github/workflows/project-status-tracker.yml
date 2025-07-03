@@ -48,7 +48,9 @@ jobs:
           }
           """
           user = os.environ['USERNAME']
+          print(f"user atual: {user}")
           projects = run_query(q_project, {"login": user})
+          print(f"projects atual: {projects}")
           project = next(p for p in projects if p['title'] == os.environ['PROJECT_NAME'])
           project_id = project['id']
 
