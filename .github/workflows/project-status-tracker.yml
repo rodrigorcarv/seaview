@@ -23,7 +23,7 @@ jobs:
 
       - name: Run tracker
         env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Token manual com escopos: repo, read:org, project
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token manual com escopos: repo, read:org, project
           USERNAME: rodrigorcarv
           PROJECT_NAME: poc
         run: |
