@@ -25,7 +25,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Token manual com escopos: repo, read:org, project
           USERNAME: rodrigorcarv
-          PROJECT_NAME: poc
+          PROJECT_NAME: Teste
         run: |
           python <<EOF
           import os, json, requests
