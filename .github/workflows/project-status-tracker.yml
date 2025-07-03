@@ -30,7 +30,7 @@ jobs:
           python <<EOF
           import os, json, requests
 
-          echo "Iniciando execução do script Python..."
+          echo 'Iniciando execução do script Python...'
          
           headers = {"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"}
 
