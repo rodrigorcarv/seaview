@@ -1,0 +1,125 @@
+name: Project Status Tracker
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # roda todo dia às 03:00 UTC
+  workflow_dispatch:
+
+jobs:
+  track-status-changes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run tracker
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Token manual com escopos: repo, read:org, project
+          USERNAME: rodrigorcarv
+          PROJECT_NAME: poc
+        run: |
+          python <<EOF
+          import os, json, requests
+
+          headers = {"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"}
+
+          def run_query(query, variables):
+              res = requests.post("https://api.github.com/graphql", json={"query": query, "variables": variables}, headers=headers)
+              res.raise_for_status()
+              return res.json()
+
+          # 1. Buscar o ID do projeto "poc"
+          q_project = """
+          query($login: String!) {
+            user(login: $login) {
+              projectsV2(first: 20) {
+                nodes { id title }
+              }
+            }
+          }
+          """
+          user = os.environ['USERNAME']
+          projects = run_query(q_project, {"login": user})['data']['user']['projectsV2']['nodes']
+          project = next(p for p in projects if p['title'] == os.environ['PROJECT_NAME'])
+          project_id = project['id']
+
+          # 2. Buscar os itens e status atuais
+          q_items = """
+          query($id: ID!) {
+            node(id: $id) {
+              ... on ProjectV2 {
+                items(first: 100) {
+                  nodes {
+                    content {
+                      __typename
+                      ... on Issue { number title url }
+                      ... on PullRequest { number title url }
+                    }
+                    fieldValues(first: 10) {
+                      ... on ProjectV2ItemFieldSingleSelectValue {
+                        name
+                        field { name }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          """
+          items = run_query(q_items, {"id": project_id})['data']['node']['items']['nodes']
+
+          new_status = {}
+          for item in items:
+              content = item.get("content") or {}
+              if not content: continue
+              number = content.get("number")
+              title = content.get("title")
+              url = content.get("url")
+              status = next((f['name'] for f in item['fieldValues'] if f['field']['name'] == "Status"), None)
+              if status:
+                  new_status[str(number)] = {"status": status, "title": title, "url": url}
+
+          # 3. Carregar histórico anterior
+          try:
+              with open("status_log.json", "r") as f:
+                  old_status = json.load(f)
+          except:
+              old_status = {}
+
+          # 4. Detectar mudanças e registrar
+          changes = []
+          for k, v in new_status.items():
+              old = old_status.get(k, {}).get("status")
+              if old and old != v['status']:
+                  changes.append(f"[{k}] {v['title']}: {old} → {v['status']} ({v['url']})")
+
+          # 5. Atualizar status_log.json
+          with open("status_log.json", "w") as f:
+              json.dump(new_status, f, indent=2)
+
+          # 6. Imprimir mudanças
+          if changes:
+              print("\n\nStatus changes detected:")
+              for c in changes:
+                  print("-", c)
+          else:
+              print("No status changes.")
+          EOF
+
+      - name: Commit updated status log (if any)
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add status_log.json || true
+          git diff --cached --quiet || git commit -m "update: status log"
+          git push || true
